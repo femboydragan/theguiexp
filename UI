@@ -1,4 +1,6 @@
 local Loadingpb = false  -- Declare Loadingpb variable
+local loadingpd = false  -- Declare loadingpd variable
+print("Thanks for using MeTaL GUI")
 print("❌")
 
 -- GUI Setup
@@ -80,6 +82,23 @@ userIDLabel.Font = Enum.Font.Gotham
 userIDLabel.TextXAlignment = Enum.TextXAlignment.Left
 userIDLabel.Parent = playerInfoFrame
 
+-- EUR Button (Positioned below the avatar and user info)
+local eurButton = Instance.new("TextButton")
+eurButton.Size = UDim2.new(0, 150, 0, 50)
+eurButton.Position = UDim2.new(0, 10, 0, 160)  -- Positioned below the user info
+eurButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+eurButton.Text = "EUR"
+eurButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+eurButton.Font = Enum.Font.GothamBold
+eurButton.TextSize = 24
+eurButton.BorderSizePixel = 0
+eurButton.Visible = false  -- Initially hidden
+eurButton.Parent = mainFrame
+
+local eurButtonCorner = Instance.new("UICorner")
+eurButtonCorner.CornerRadius = UDim.new(0, 12)
+eurButtonCorner.Parent = eurButton
+
 -- Activate Button and Progress Bar
 local activateButton = Instance.new("TextButton")
 activateButton.Size = UDim2.new(0, 150, 0, 50)
@@ -128,7 +147,7 @@ percentageLabel.TextSize = 24
 percentageLabel.Font = Enum.Font.GothamBold
 percentageLabel.Parent = mainFrame
 
--- Progress Bar Fill Logic
+-- Button Visibility Logic
 local function fillProgressBar()
     for i = 1, 100 do
         progressBar.Size = UDim2.new(i / 100, 0, 1, 0)
@@ -140,20 +159,16 @@ local function fillProgressBar()
     activateButton:Destroy()
     playerInfoFrame.Visible = true
     Loadingpb = true  -- Set variable to true once the progress is complete
-    print("Progress Complete! Loadingpb is set to true.")
+    loadingpd = true  -- Set loadingpd to true when progress is finished
+    print("Progress Complete! Loadingpb and loadingpd are set to true.")
+    
+    -- Show EUR button when loadingpd is true
+    eurButton.Visible = true
 end
 
 -- Activate Button Functionality
 activateButton.MouseButton1Click:Connect(function()
     fillProgressBar()
-end)
-
--- Listen for Chat Message
-game.Players.LocalPlayer.Chatted:Connect(function(message)
-    if message:lower() == "yes" then
-        Loadingpb = true
-        print("Chat received: 'yes'. Loadingpb set to true.")
-    end
 end)
 
 -- Dragging Functionality
