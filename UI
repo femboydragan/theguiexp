@@ -1,0 +1,203 @@
+local screenGui = Instance.new("ScreenGui")
+screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+local mainFrame = Instance.new("Frame")
+mainFrame.Size = UDim2.new(0, 500, 0, 400)
+mainFrame.Position = UDim2.new(0.5, -250, 0.5, -200)
+mainFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+mainFrame.BorderSizePixel = 0
+mainFrame.ClipsDescendants = true
+mainFrame.Parent = screenGui
+
+local gradient = Instance.new("UIGradient")
+gradient.Parent = mainFrame
+gradient.Color = ColorSequence.new(
+    Color3.fromRGB(135, 206, 235),
+    Color3.fromRGB(255, 105, 180)
+)
+gradient.Rotation = 45
+
+local corner = Instance.new("UICorner")
+corner.CornerRadius = UDim.new(0, 16)
+corner.Parent = mainFrame
+
+local textLabel = Instance.new("TextLabel")
+textLabel.Size = UDim2.new(1, -20, 0, 40)
+textLabel.Position = UDim2.new(0, 10, 0, 0)
+textLabel.BackgroundTransparency = 1
+textLabel.Text = "MeTaL"
+textLabel.TextColor3 = Color3.fromRGB(0, 255, 255)
+textLabel.TextSize = 30
+textLabel.TextStrokeTransparency = 0.6
+textLabel.TextStrokeColor3 = Color3.fromRGB(0, 0, 139)
+textLabel.Font = Enum.Font.GothamBold
+textLabel.TextXAlignment = Enum.TextXAlignment.Left
+textLabel.Parent = mainFrame
+
+local playerInfoFrame = Instance.new("Frame")
+playerInfoFrame.Size = UDim2.new(0, 250, 0, 100)
+playerInfoFrame.Position = UDim2.new(0, 10, 0, 50)
+playerInfoFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+playerInfoFrame.BorderSizePixel = 2
+playerInfoFrame.Visible = false
+playerInfoFrame.Parent = mainFrame
+
+local playerInfoCorner = Instance.new("UICorner")
+playerInfoCorner.CornerRadius = UDim.new(0, 12)
+playerInfoCorner.Parent = playerInfoFrame
+
+local playerAvatar = Instance.new("ImageLabel")
+playerAvatar.Size = UDim2.new(0, 60, 0, 60)
+playerAvatar.Position = UDim2.new(0, 10, 0, 10)
+playerAvatar.BackgroundTransparency = 1
+playerAvatar.Image = "http://www.roblox.com/headshot-thumbnail/image?userId=" .. game.Players.LocalPlayer.UserId .. "&width=60&height=60&format=png"
+playerAvatar.Parent = playerInfoFrame
+
+local usernameLabel = Instance.new("TextLabel")
+usernameLabel.Size = UDim2.new(0, 150, 0, 40)
+usernameLabel.Position = UDim2.new(0, 80, 0, 10)
+usernameLabel.BackgroundTransparency = 1
+usernameLabel.Text = game.Players.LocalPlayer.Name
+usernameLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+usernameLabel.TextSize = 24
+usernameLabel.Font = Enum.Font.GothamBold
+usernameLabel.TextXAlignment = Enum.TextXAlignment.Left
+usernameLabel.Parent = playerInfoFrame
+
+local userIDLabel = Instance.new("TextLabel")
+userIDLabel.Size = UDim2.new(0, 150, 0, 40)
+userIDLabel.Position = UDim2.new(0, 80, 0, 50)
+userIDLabel.BackgroundTransparency = 1
+userIDLabel.Text = "User ID: " .. game.Players.LocalPlayer.UserId
+userIDLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+userIDLabel.TextSize = 18
+userIDLabel.Font = Enum.Font.Gotham
+userIDLabel.TextXAlignment = Enum.TextXAlignment.Left
+userIDLabel.Parent = playerInfoFrame
+
+local activateButton = Instance.new("TextButton")
+activateButton.Size = UDim2.new(0, 150, 0, 50)
+activateButton.Position = UDim2.new(0.5, -75, 0.7, 0)
+activateButton.BackgroundColor3 = Color3.fromRGB(50, 200, 50)
+activateButton.Text = "Activate"
+activateButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+activateButton.Font = Enum.Font.GothamBold
+activateButton.TextSize = 24
+activateButton.BorderSizePixel = 0
+activateButton.Parent = mainFrame
+
+local activateCorner = Instance.new("UICorner")
+activateCorner.CornerRadius = UDim.new(0, 12)
+activateCorner.Parent = activateButton
+
+local progressBarFrame = Instance.new("Frame")
+progressBarFrame.Size = UDim2.new(0.8, 0, 0, 30)
+progressBarFrame.Position = UDim2.new(0.1, 0, 0.5, -15)
+progressBarFrame.BackgroundColor3 = Color3.fromRGB(200, 200, 200)
+progressBarFrame.BorderSizePixel = 0
+progressBarFrame.Parent = mainFrame
+
+local progressBarFrameCorner = Instance.new("UICorner")
+progressBarFrameCorner.CornerRadius = UDim.new(0, 12)
+progressBarFrameCorner.Parent = progressBarFrame
+
+local progressBar = Instance.new("Frame")
+progressBar.Size = UDim2.new(0, 0, 1, 0)
+progressBar.Position = UDim2.new(0, 0, 0, 0)
+progressBar.BackgroundColor3 = Color3.fromRGB(50, 150, 255)
+progressBar.BorderSizePixel = 0
+progressBar.Parent = progressBarFrame
+
+local progressBarCorner = Instance.new("UICorner")
+progressBarCorner.CornerRadius = UDim.new(0, 12)
+progressBarCorner.Parent = progressBar
+
+local percentageLabel = Instance.new("TextLabel")
+percentageLabel.Size = UDim2.new(0, 100, 0, 30)
+percentageLabel.Position = UDim2.new(0.5, -50, 0.5, -50)
+percentageLabel.BackgroundTransparency = 1
+percentageLabel.Text = "0%"
+percentageLabel.TextColor3 = Color3.fromRGB(0, 0, 0)
+percentageLabel.TextSize = 24
+percentageLabel.Font = Enum.Font.GothamBold
+percentageLabel.Parent = mainFrame
+
+local function fillProgressBar()
+    for i = 1, 100 do
+        progressBar.Size = UDim2.new(i / 100, 0, 1, 0)
+        percentageLabel.Text = tostring(i) .. "%"
+        wait(0.05)
+    end
+    progressBarFrame:Destroy()
+    percentageLabel:Destroy()
+    activateButton:Destroy()
+    playerInfoFrame.Visible = true
+end
+
+activateButton.MouseButton1Click:Connect(function()
+    fillProgressBar()
+end)
+
+local dragging = false
+local dragInput, dragStart, startPos
+
+textLabel.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = true
+        dragStart = input.Position
+        startPos = mainFrame.Position
+    end
+end)
+
+textLabel.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = false
+    end
+end)
+
+game:GetService("UserInputService").InputChanged:Connect(function(input)
+    if dragging then
+        local delta = input.Position - dragStart
+        mainFrame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+    end
+end)
+
+local buttonContainer = Instance.new("Frame")
+buttonContainer.Size = UDim2.new(0, 60, 0, 40)
+buttonContainer.Position = UDim2.new(1, -70, 0, 10)
+buttonContainer.BackgroundTransparency = 1
+buttonContainer.Parent = mainFrame
+
+local minimizeButton = Instance.new("TextButton")
+minimizeButton.Size = UDim2.new(0, 30, 0, 30)
+minimizeButton.Position = UDim2.new(0, 0, 0, 0)
+minimizeButton.Text = "-"
+minimizeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+minimizeButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+minimizeButton.BorderSizePixel = 0
+minimizeButton.TextSize = 20
+minimizeButton.Parent = buttonContainer
+
+local closeButton = Instance.new("TextButton")
+closeButton.Size = UDim2.new(0, 30, 0, 30)
+closeButton.Position = UDim2.new(0, 35, 0, 0)
+closeButton.Text = "x"
+closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+closeButton.BackgroundColor3 = Color3.fromRGB(255, 80, 80)
+closeButton.BorderSizePixel = 0
+closeButton.TextSize = 20
+closeButton.Parent = buttonContainer
+
+minimizeButton.MouseButton1Click:Connect(function()
+    if mainFrame.Size.Y.Offset > 40 then
+        mainFrame.Size = UDim2.new(0, 500, 0, 40)
+        minimizeButton.Text = "+"
+    else
+        mainFrame.Size = UDim2.new(0, 500, 0, 400)
+        minimizeButton.Text = "-"
+    end
+end)
+
+closeButton.MouseButton1Click:Connect(function()
+    screenGui:Destroy()
+end)
