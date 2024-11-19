@@ -1,3 +1,7 @@
+local Loadingpb = false  -- Declare Loadingpb variable
+print("❌")
+
+-- GUI Setup
 local screenGui = Instance.new("ScreenGui")
 screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
@@ -34,6 +38,7 @@ textLabel.Font = Enum.Font.GothamBold
 textLabel.TextXAlignment = Enum.TextXAlignment.Left
 textLabel.Parent = mainFrame
 
+-- Player info UI components
 local playerInfoFrame = Instance.new("Frame")
 playerInfoFrame.Size = UDim2.new(0, 250, 0, 100)
 playerInfoFrame.Position = UDim2.new(0, 10, 0, 50)
@@ -75,6 +80,7 @@ userIDLabel.Font = Enum.Font.Gotham
 userIDLabel.TextXAlignment = Enum.TextXAlignment.Left
 userIDLabel.Parent = playerInfoFrame
 
+-- Activate Button and Progress Bar
 local activateButton = Instance.new("TextButton")
 activateButton.Size = UDim2.new(0, 150, 0, 50)
 activateButton.Position = UDim2.new(0.5, -75, 0.7, 0)
@@ -122,6 +128,7 @@ percentageLabel.TextSize = 24
 percentageLabel.Font = Enum.Font.GothamBold
 percentageLabel.Parent = mainFrame
 
+-- Progress Bar Fill Logic
 local function fillProgressBar()
     for i = 1, 100 do
         progressBar.Size = UDim2.new(i / 100, 0, 1, 0)
@@ -132,12 +139,24 @@ local function fillProgressBar()
     percentageLabel:Destroy()
     activateButton:Destroy()
     playerInfoFrame.Visible = true
+    Loadingpb = true  -- Set variable to true once the progress is complete
+    print("Progress Complete! Loadingpb is set to true.")
 end
 
+-- Activate Button Functionality
 activateButton.MouseButton1Click:Connect(function()
     fillProgressBar()
 end)
 
+-- Listen for Chat Message
+game.Players.LocalPlayer.Chatted:Connect(function(message)
+    if message:lower() == "yes" then
+        Loadingpb = true
+        print("Chat received: 'yes'. Loadingpb set to true.")
+    end
+end)
+
+-- Dragging Functionality
 local dragging = false
 local dragInput, dragStart, startPos
 
@@ -162,6 +181,7 @@ game:GetService("UserInputService").InputChanged:Connect(function(input)
     end
 end)
 
+-- Minimize and Close Buttons
 local buttonContainer = Instance.new("Frame")
 buttonContainer.Size = UDim2.new(0, 60, 0, 40)
 buttonContainer.Position = UDim2.new(1, -70, 0, 10)
